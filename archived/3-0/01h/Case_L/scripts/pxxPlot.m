@@ -61,6 +61,8 @@ grid on; set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
 set(xlabel("$f$ (Hz)", "FontSize", 14), 'Interpreter', 'latex');
 set(ylabel("$S_{uu}(f) (m^2/s)$", "FontSize", 14), 'Interpreter', 'latex');
 set(title(sprintf("PSD at y = %.5f m", Y(ii_c)), FontSize=14), 'Interpreter', 'latex');
+saveas(gcf, fullfile('..', 'analysis_figures', 'psd_center.fig'));
+saveas(gcf, fullfile('..', 'analysis_figures', 'pxxs.svg'));
 
 figure();
 plot(reshape(fs(ii_c, jj_c, :), [], 1), reshape(fs(ii_c, jj_c, :) .* pxxs(ii_c, jj_c, :), [], 1));

@@ -37,7 +37,7 @@ clc; clear; close all;
 
 % Define the path to the case directory and sampling frequency
 casePath = '..';
-Fs = 2400; % Sampling frequency (Hz) 
+Fs = 24; % Sampling frequency (Hz) 
 
 % Load the data from the specified file
 data = load(fullfile(casePath, 'figure_data', 'u4pxx.mat'));
@@ -52,7 +52,7 @@ u_pri = data.u_pri; % Primary velocity data
 [m, n, ~] = size(u_pri);
 
 % Define the window length for Welch's method and calculate FFT parameters
-window_length = 8000; % Length of the window for Welch's method
+window_length = 16000; % Length of the window for Welch's method
 nfft = 2^nextpow2(window_length); % Next power of 2 for FFT
 output_length = nfft/2 + 1; % Output length for real-valued input
 
@@ -68,7 +68,7 @@ for ii = 1:m
             window_length, [], [], Fs);
         
         % Plot the PSD on a log-log scale for visualization
-        loglog(squeeze(fs(ii, jj, :)), squeeze(pxxs(ii, jj, :)));
+        loglog(squeeze(fs(ii, jj, :)), squeeze(pxxs(ii, jj, :))); grid on;
     end
 end
 

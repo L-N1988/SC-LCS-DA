@@ -36,12 +36,13 @@ clc; clear; close all;
 casePath = '..';
 load(fullfile(casePath, 'figure_data', 'pxxs.mat'));
 
+%%
 [ii_c, jj_c] = deal(round(size(fs, 1)/4), round(size(fs, 2)/2));
 figure();
 plot(reshape(fs(ii_c, jj_c, :), [], 1), reshape(pxxs(ii_c, jj_c, :), [], 1));
 grid on; set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
 set(xlabel("$f$ (Hz)", "FontSize", 14), 'Interpreter', 'latex');
-set(ylabel("$S_{uu}(f) (m^2/s)$", "FontSize", 14), 'Interpreter', 'latex');
+set(ylabel("$S_{uu}(f) \mathrm{(m^2/s)}$", "FontSize", 14), 'Interpreter', 'latex');
 set(title(sprintf("PSD at y = %.5f m", Y(ii_c)), FontSize=14), 'Interpreter', 'latex');
 
 figure();
@@ -49,7 +50,7 @@ plot(reshape(fs(ii_c, jj_c, :), [], 1), reshape(fs(ii_c, jj_c, :) .* pxxs(ii_c, 
 grid on; set(gca, 'XScale', 'log');
 set(xlabel("$f$ (Hz)", "FontSize", 14), ...
     'Interpreter', 'latex');
-set(ylabel("$fS_{uu}(f) (m^2)$", "FontSize", 14), ...
+set(ylabel("$fS_{uu}(f) \mathrm{(m^2/s^2)}$", "FontSize", 14), ...
     'Interpreter', 'latex');
 set(title(sprintf("pre-multiplied PSD at y = %.5f m", Y(ii_c)), FontSize=14), ...
     'Interpreter', 'latex');
@@ -59,15 +60,17 @@ figure();
 plot(reshape(fs(ii_c, jj_c, :), [], 1), reshape(pxxs(ii_c, jj_c, :), [], 1));
 grid on; set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
 set(xlabel("$f$ (Hz)", "FontSize", 14), 'Interpreter', 'latex');
-set(ylabel("$S_{uu}(f) (m^2/s)$", "FontSize", 14), 'Interpreter', 'latex');
+set(ylabel("$S_{uu}(f) \mathrm{(m^2/s)}$", "FontSize", 14), 'Interpreter', 'latex');
 set(title(sprintf("PSD at y = %.5f m", Y(ii_c)), FontSize=14), 'Interpreter', 'latex');
+saveas(gcf, fullfile('..', 'analysis_figures', 'psd_center.fig'));
+saveas(gcf, fullfile('..', 'analysis_figures', 'pxxs.svg'));
 
 figure();
 plot(reshape(fs(ii_c, jj_c, :), [], 1), reshape(fs(ii_c, jj_c, :) .* pxxs(ii_c, jj_c, :), [], 1));
 grid on; set(gca, 'XScale', 'log');
 set(xlabel("$f$ (Hz)", "FontSize", 14), ...
     'Interpreter', 'latex');
-set(ylabel("$fS_{uu}(f) (m^2)$", "FontSize", 14), ...
+set(ylabel("$fS_{uu}(f) \mathrm{(m^2/s^2)}$", "FontSize", 14), ...
     'Interpreter', 'latex');
 set(title(sprintf("pre-multiplied PSD at y = %.5f m", Y(ii_c)), FontSize=14), ...
     'Interpreter', 'latex');
@@ -77,7 +80,7 @@ figure();
 plot(reshape(fs(ii_c, jj_c, :), [], 1), reshape(pxxs(ii_c, jj_c, :), [], 1));
 grid on; set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
 set(xlabel("$f$ (Hz)", "FontSize", 14), 'Interpreter', 'latex');
-set(ylabel("$S_{uu}(f) (m^2/s)$", "FontSize", 14), 'Interpreter', 'latex');
+set(ylabel("$S_{uu}(f) \mathrm{(m^2/s)}$", "FontSize", 14), 'Interpreter', 'latex');
 set(title(sprintf("PSD at y = %.5f m", Y(ii_c)), FontSize=14), 'Interpreter', 'latex');
 
 figure();
@@ -85,7 +88,7 @@ plot(reshape(fs(ii_c, jj_c, :), [], 1), reshape(fs(ii_c, jj_c, :) .* pxxs(ii_c, 
 grid on; set(gca, 'XScale', 'log');
 set(xlabel("$f$ (Hz)", "FontSize", 14), ...
     'Interpreter', 'latex');
-set(ylabel("$fS_{uu}(f) (m^2)$", "FontSize", 14), ...
+set(ylabel("$fS_{uu}(f) \mathrm{(m^2/s^2)}$", "FontSize", 14), ...
     'Interpreter', 'latex');
 set(title(sprintf("pre-multiplied PSD at y = %.5f m", Y(ii_c)), FontSize=14), ...
     'Interpreter', 'latex');

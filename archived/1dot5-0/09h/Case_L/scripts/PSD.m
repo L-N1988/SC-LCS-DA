@@ -37,7 +37,7 @@ clc; clear; close all;
 
 % Define the path to the case directory and sampling frequency
 casePath = '..';
-Fs = 2400; % Sampling frequency (Hz) 
+Fs = 24; % Sampling frequency (Hz) 
 
 % Load the data from the specified file
 data = load(fullfile(casePath, 'figure_data', 'u4pxx.mat'));
@@ -68,7 +68,7 @@ for ii = 1:m
             window_length, [], [], Fs);
         
         % Plot the PSD on a log-log scale for visualization
-        loglog(squeeze(fs(ii, jj, :)), squeeze(pxxs(ii, jj, :)));
+        loglog(squeeze(fs(ii, jj, :)), squeeze(pxxs(ii, jj, :))); grid on;
     end
 end
 

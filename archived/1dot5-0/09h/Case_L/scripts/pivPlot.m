@@ -8,7 +8,7 @@ load(fullfile(casePath, 'figure_data', 'u_stat.mat')); % Load statistical data f
 figure(1); scatter(U_xt, Y); % Scatter plot of U_xt vs Y
 set(xlabel("$U(\rm m/s)$", "FontSize", 14), 'Interpreter', 'latex'); % Set x-axis label with LaTeX formatting
 set(ylabel("$y(\rm m)$", "FontSize", 14), 'Interpreter', 'latex'); % Set y-axis label with LaTeX formatting
-set(gca, 'YScale', 'log'); % Set y-axis to logarithmic scale
+% set(gca, 'YScale', 'log'); % Set y-axis to logarithmic scale
 print(gcf, fullfile('..', 'analysis_figures', 'U_vs_Y.emf'), '-dmeta', '-r300'); % Save plot as .emf
 saveas(gcf, fullfile('..', 'analysis_figures', 'U_vs_Y.fig')); % Save plot as .fig
 saveas(gcf, fullfile('..', 'analysis_figures', 'U_vs_Y.svg')); % Save plot as .svg
