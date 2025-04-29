@@ -17,15 +17,15 @@
 % - u_pri: Primary velocity data (3D matrix).
 % - window_length: Length of the window used in Welch's method.
 % - nfft: Number of FFT points (next power of 2 of window_length).
-% - fs: Frequency matrix (3D matrix).
-% - pxxs: PSD matrix (3D matrix).
+% - fxs, fys: Frequency matrix (3D matrix).
+% - pxxs, pyys: PSD matrix (3D matrix).
 %
 % Functions:
 % - patch_moving_average_conv: Computes a moving average using convolution
 %   with a specified kernel. Used to smooth the PSD data.
 %
 % Outputs:
-% - Saves the processed PSD data (fs, pxxs) along with spatial coordinates
+% - Saves the processed PSD data (fxs, pxxs) along with spatial coordinates
 %   (X, Y, xmesh, ymesh) and mean velocity (U_xt) to 'pxxs.mat'.
 %
 % Notes:
@@ -46,7 +46,8 @@ Y = data.Y; % Y-coordinates
 xmesh = data.xmesh; % X-mesh grid
 ymesh = data.ymesh; % Y-mesh grid
 U_xt = mean(data.U_t, 2); % Mean velocity over time
-u_pri = data.u_pri; % Primary velocity data
+u_pri = data.u_pri; % fluctuating velocity components
+v_pri = data.v_pri;
 
 % Get the dimensions of the velocity data
 [m, n, ~] = size(u_pri);
@@ -57,18 +58,19 @@ nfft = 2^nextpow2(window_length); % Next power of 2 for FFT
 output_length = nfft/2 + 1; % Output length for real-valued input
 
 % Initialize matrices to store frequency and power spectral density (PSD)
-fs = zeros(m, n, output_length); % Frequency matrix
-pxxs = zeros(m, n, output_length); % PSD matrix
+fxs = zeros(m, n, output_length); % Frequency matrix
+fys = zeros(m, n, output_length); % PSD matrix for u component
+pxxs = zeros(m, n, output_length); % PSD matrix for u component
+pyys  = zeros(m, n, output_length); % PSD matrix for v component
 
 % Loop through each spatial point to compute PSD using Welch's method
 for ii = 1:m
     for jj = 1:n
         % Compute PSD and frequency using Welch's method
-        [pxxs(ii, jj, :), fs(ii, jj, :)] = pwelch(squeeze(u_pri(ii, jj, :)), ...
+        [pxxs(ii, jj, :), fxs(ii, jj, :)] = pwelch(squeeze(u_pri(ii, jj, :)), ...
             window_length, [], [], Fs);
-        
-        % Plot the PSD on a log-log scale for visualization
-        loglog(squeeze(fs(ii, jj, :)), squeeze(pxxs(ii, jj, :))); grid on;
+        [pyys(ii, jj, :), fys(ii, jj, :)] = pwelch(squeeze(v_pri(ii, jj, :)), ...
+            window_length, [], [], Fs);
     end
 end
 
@@ -78,9 +80,11 @@ kernel = ones(window_size, window_size); % 3x3 matrix of ones
 
 % Apply a 3x3 moving average filter to smooth the PSD data
 pxxs = patch_moving_average_conv(pxxs, kernel);
+pyys = patch_moving_average_conv(pyys, kernel);
 
 % Save the processed data to a .mat file
-save(fullfile(casePath, 'figure_data', 'pxxs.mat'), 'X', 'xmesh', 'Y', 'ymesh', 'fs', 'pxxs', 'U_xt');
+save(fullfile(casePath, 'figure_data', 'pxxs.mat'), ...
+    'X', 'xmesh', 'Y', 'ymesh', 'fxs', 'pxxs', 'fys', 'pyys', 'U_xt');
 
 % Function to compute a moving average using convolution
 function moving_avg_matrix = patch_moving_average_conv(matrix, kernel)

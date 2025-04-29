@@ -19,7 +19,7 @@ fprintf(['Measure domain: \n'...
 
 % Check if filtered data is available; otherwise, use original data
 if isempty(data.u_filtered{1}) && isempty(data.v_filtered{1})
-    warning('Data not filtered in PIVLab. Mat file may contain abnormal data.')
+    warning('Data are not filtered in PIVLab. Mat file may contain abnormal data.')
     u_filtered = data.u_original;
     v_filtered = data.v_original;
     typevector = data.typevector_original;
